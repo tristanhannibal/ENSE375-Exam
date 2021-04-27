@@ -48,10 +48,27 @@ public class Time24
 	public static Time24 toTime24(int hours, int minutes, AmPm am_pm)
 	{
 		Time24 time=null;
-		//Todo : add your code here
+		int hours24 = -1; //the hours in 24hr format, start with intitalize to invalid start
+		if(hours == 12){
+			if(am_pm == AmPm.am ){
+				hours24 = 0;
+			} else if(am_pm == AmPm.pm){
+				hours24 = 12;
+			}
+		} else{
+			if(am_pm == AmPm.am){
+				hours24 = hours;
+			} else if (am_pm == AmPm.pm){
+				hours24 = hours+12;
+			}
+		}
+		try{
+			time = new Time24(hours24,minutes);
+		} catch (InvalidTimeException e){
+			return null;//return null if invalid time
+		}
 
 
-		// End of your code
 		return time;
 	}
 	/**
