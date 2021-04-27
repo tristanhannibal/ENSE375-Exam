@@ -56,9 +56,9 @@ public class Time24
 				hours24 = 12;
 			}
 		} else{
-			if(am_pm == AmPm.am){
+			if(am_pm == AmPm.am && hours <= 12 && hours > 0){
 				hours24 = hours;
-			} else if (am_pm == AmPm.pm){
+			} else if (am_pm == AmPm.pm && hours <= 12 && hours > 0){
 				hours24 = hours+12;
 			}
 		}
