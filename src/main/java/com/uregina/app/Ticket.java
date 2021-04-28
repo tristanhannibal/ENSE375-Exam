@@ -1,7 +1,7 @@
 package com.uregina.app;
 
 import com.uregina.exceptions.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Arrays;
 /**
  * Class Ticket, a List of Flights in ordered sequences
@@ -37,9 +37,38 @@ public class Ticket
 	*/
 	public static boolean checkTicket( ArrayList<Flight> ticket, int maxFlightsCount, int maxFlightTime, int maxLayoverTime, boolean hasSchengenVisa)
 	{
-		//Todo: add your code here
-		
 
+
+		List<String> schegen = Arrays.asList(SchengenAirportsCode);
+
+		if(ticket.size() > maxFlightsCount) return false;
+
+		int currFlightTime = 0;
+		int currLayOverTime = 0;
+
+
+		for(int i = 0; i < ticket.size(); i++){
+			try{
+				if(!(ticket.get(i).getDepatureAirport().matches("^[A-Z]{3}$")) || !(ticket.get(i).getDepatureAirport().matches("^[A-Z]{3}$"))) return false;
+
+				currFlightTime += ticket.get(i).calculateFlightTime();
+				if (currFlightTime > maxFlightTime) return false;
+				
+				if(i+1 < ticket.size()){
+					Flight currTicket = ticket.get(i);
+					Flight nextTicket = ticket.get(i+1);
+					if(!(currTicket.getDepatureAirport().equals(nextTicket.getArrivalAirport()))) return false;
+					currLayOverTime += Flight.calculateLayoverTime(currTicket, nextTicket);
+					if(schegen.contains(currTicket.getDepatureAirport()) 
+					&& schegen.contains(nextTicket.getArrivalAirport()) 
+					&& hasSchengenVisa == false){
+						return false;
+					}
+				}
+			} catch(Exception e){
+				return false;
+			}
+		}
 		//end of your code
 		return true;
 	}

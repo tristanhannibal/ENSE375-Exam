@@ -50,9 +50,28 @@ public class DateTime
 	public static int subtract(DateTime d1,DateTime d2) throws MoreThanOneDayException
 	{
 		int diff=0;
-		//Todo: add your code here
+		
+		Date date1 = d1.getDate();
+		Date date2 = d2.getDate();
 
-		//end of your code
+		Time12 time1 = d1.getTime();
+		Time12 time2 = d2.getTime();
+
+
+		if(Date.equal(date1, date2)){
+			diff = Time12.subtract(time1, time2);
+		}
+		else if(Date.equal(date1.nextDate(), date2)){
+			diff = Time12.subtract(time1, time2) - 1440;
+		}
+		else if(Date.equal(date2.nextDate(), date1)){
+			diff = Time12.subtract(time1, time2) + 1440;
+		}
+		else{
+			throw new MoreThanOneDayException();
+		}
+		
+
 		return diff;
 	}
 	/**
