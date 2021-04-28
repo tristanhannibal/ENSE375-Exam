@@ -57,7 +57,7 @@ public class Ticket
 				if(i+1 < ticket.size()){
 					Flight currTicket = ticket.get(i);
 					Flight nextTicket = ticket.get(i+1);
-					if(!(currTicket.getDepatureAirport().equals(nextTicket.getArrivalAirport()))) return false;
+					if(!(currTicket.getArrivalAirport().equals(nextTicket.getDepatureAirport()))) return false;
 					currLayOverTime += Flight.calculateLayoverTime(currTicket, nextTicket);
 					if(schegen.contains(currTicket.getDepatureAirport()) 
 					&& schegen.contains(nextTicket.getArrivalAirport()) 
@@ -83,10 +83,21 @@ public class Ticket
 	*/
 	public static boolean hasCyclicTrip(ArrayList<Flight> ticket)
 	{
-		//Todo : add your code here
-		
+		if(ticket.size() <= 1) return false;
 
-		//Todo : end of your code
+		String firstAirport = ticket.get(0).getDepatureAirport();
+
+		Set<String> arrivalSet = new HashSet<String>();
+		for(int i =0; i < ticket.size(); i++){
+			Flight flight = ticket.get(i);
+			if(arrivalSet.contains(flight.getArrivalAirport())){
+				return true;
+			} else{
+				arrivalSet.add(flight.getArrivalAirport());
+			}
+
+		}
+
 		return false;
 	}
 }
